@@ -10,9 +10,15 @@ class UnicodeStringUtilTest extends TestCase
 {
     public function testCountCharacters(): void
     {
+        $emptyString = new UnicodeString('');
         $fullyUniqueString = new UnicodeString('абвгде');
         $repeatingCharactersString = new UnicodeString('кккккк');
         $repeatingPairsString = new UnicodeString('кекеке');
+
+        // empty string
+        $emptyStringFreqMap = UnicodeStringUtil::countCharacters($emptyString);
+        $this->assertCount(0, array_keys($emptyStringFreqMap));
+        $this->assertEquals([], $emptyStringFreqMap);
 
         // fully unique string
         $fullyUniqueStringFreqMap = UnicodeStringUtil::countCharacters($fullyUniqueString);
