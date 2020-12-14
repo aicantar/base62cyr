@@ -99,6 +99,24 @@ class UnicodeString
     }
 
     /**
+     * Return the index of the given character in the string. Returns -1 if the character is not found.
+     *
+     * @param string $character
+     *
+     * @return int
+     */
+    public function indexOf(string $character): int
+    {
+        $index = mb_strpos($this->data, $character);
+
+        if ($index === false) {
+            return -1;
+        }
+
+        return $index;
+    }
+
+    /**
      * Get character at the given index.
      *
      * @param int $index

@@ -46,4 +46,12 @@ class Base62CyrTranslator implements TranslatorInterface
             return $this->alphabet->getCharAt($index);
         }, $message));
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAlphabet(): UnicodeString
+    {
+        return $this->alphabet;
+    }
 }

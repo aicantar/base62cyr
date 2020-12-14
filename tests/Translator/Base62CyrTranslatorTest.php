@@ -63,4 +63,11 @@ class Base62CyrTranslatorTest extends TestCase
 
         $this->assertEquals($result, $translator->translate($message));
     }
+
+    public function testGetAlphabetReturnsUnicodeString(): void
+    {
+        $translator = new Base62CyrTranslator($this->base62cyrAlphabet);
+
+        $this->assertInstanceOf(UnicodeString::class, $translator->getAlphabet());
+    }
 }

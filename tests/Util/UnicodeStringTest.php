@@ -79,4 +79,21 @@ class UnicodeStringTest extends TestCase
         $this->assertEquals('новая строка', $newString->getRaw());
         $this->assertEquals('проверочная строка', $unicodeString->getRaw());
     }
+
+    public function testIndexOfReturnsValidIndexForExistingCharacters(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+
+        $index0 = $unicodeString->indexOf('п');
+        $index1 = $unicodeString->indexOf('я');
+        $index2 = $unicodeString->indexOf('к');
+
+        $this->assertGreaterThan(-1, $index0);
+        $this->assertGreaterThan(-1, $index1);
+        $this->assertGreaterThan(-1, $index2);
+
+        $this->assertEquals('п', $unicodeString->getCharAt($index0));
+        $this->assertEquals('я', $unicodeString->getCharAt($index1));
+        $this->assertEquals('к', $unicodeString->getCharAt($index2));
+    }
 }
