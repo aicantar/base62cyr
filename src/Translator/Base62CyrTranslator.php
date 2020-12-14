@@ -7,7 +7,7 @@ use Aicantar\Base62Cyr\Util\UnicodeStringUtil;
 use InvalidArgumentException;
 
 /**
- * Base62 Cyrillic Translator
+ * Base62 Cyrillic Translator.
  *
  * @package Aicantar\Base62Cyr\Translator
  */
@@ -21,7 +21,7 @@ class Base62CyrTranslator implements TranslatorInterface
     /**
      * Base62CyrTranslator constructor.
      *
-     * @param UnicodeString $alphabet
+     * @param UnicodeString $alphabet Translator alphabet, must contain exactly 62 unique characters.
      */
     public function __construct(UnicodeString $alphabet)
     {

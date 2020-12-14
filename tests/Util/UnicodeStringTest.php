@@ -48,4 +48,24 @@ class UnicodeStringTest extends TestCase
         $unicodeString = new UnicodeString(self::STRING);
         $unicodeString->getCharAt(-1);
     }
+
+    public function testContainsShouldReturnTrueForValidSubstrings(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+
+        $this->assertTrue($unicodeString->contains('прове'));
+        $this->assertTrue($unicodeString->contains('вер'));
+        $this->assertTrue($unicodeString->contains('ая стр'));
+        $this->assertTrue($unicodeString->contains('ока'));
+    }
+
+    public function testContainsShouldReturnFalseForInvalidSubstrings(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+
+        $this->assertFalse($unicodeString->contains(''));
+        $this->assertFalse($unicodeString->contains('аа'));
+        $this->assertFalse($unicodeString->contains('бббб'));
+        $this->assertFalse($unicodeString->contains('1234'));
+    }
 }

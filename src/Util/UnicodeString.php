@@ -69,6 +69,18 @@ class UnicodeString
     }
 
     /**
+     * Returns whether the string contains the given substring.
+     *
+     * @param string $substring
+     *
+     * @return bool
+     */
+    public function contains(string $substring): bool
+    {
+        return !empty($substring) && mb_strpos($this->data, $substring) !== false;
+    }
+
+    /**
      * Get character at the given index.
      *
      * @param int $index
