@@ -52,7 +52,7 @@ class SimpleConverterTest extends TestCase
     /**
      * @dataProvider conversionProvider
      */
-    public function testShouldConvertMessagesCorrectly($message, $targetBase, $sourceBase, $result): void
+    public function testShouldConvertMessagesCorrectly(array $message, int $targetBase, int $sourceBase, array $result): void
     {
         $converter = new SimpleConverter();
 
