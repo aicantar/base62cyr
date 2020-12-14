@@ -3,7 +3,9 @@
 namespace Aicantar\Base62Cyr\Converter;
 
 /**
- * Class AbstractConverter
+ * Converters convert blocks of integers between arbitrary bases. All concrete converters must extend this class. This
+ * class defines mandatory methods for any converter.
+ *
  * @package Aicantar\Base62Cyr\Converter
  */
 abstract class AbstractConverter
