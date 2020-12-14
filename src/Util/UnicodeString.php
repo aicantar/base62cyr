@@ -69,6 +69,24 @@ class UnicodeString
     }
 
     /**
+     * Replace using regular expressions. Uses mb_ereg_replace internally.
+     *
+     * @param string $pattern
+     * @param string $replacement
+     * @param string $options
+     *
+     * @see mb_ereg_replace()
+     *
+     * @return UnicodeString
+     */
+    public function replace(string $pattern, string $replacement, string $options = 'msr'): UnicodeString
+    {
+        $patternTrimmed = trim($pattern, '/');
+
+        return new UnicodeString(mb_ereg_replace($patternTrimmed, $replacement, $this->data, $options));
+    }
+
+    /**
      * Returns whether the string contains the given substring.
      *
      * @param string $substring

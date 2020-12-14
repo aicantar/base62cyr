@@ -68,4 +68,15 @@ class UnicodeStringTest extends TestCase
         $this->assertFalse($unicodeString->contains('бббб'));
         $this->assertFalse($unicodeString->contains('1234'));
     }
+
+    public function testReplaceWorksAndReturnsNewUnicodeString(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+        $newString = $unicodeString->replace('/проверочная/', 'новая');
+
+        $this->assertInstanceOf(UnicodeString::class, $newString);
+        $this->assertNotSame($unicodeString, $newString);
+        $this->assertEquals('новая строка', $newString->getRaw());
+        $this->assertEquals('проверочная строка', $unicodeString->getRaw());
+    }
 }
