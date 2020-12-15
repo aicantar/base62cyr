@@ -32,4 +32,33 @@ class UnicodeStringUtil
 
         return $map;
     }
+
+    /**
+     * Test whether the given subject consists only from the characters found in the given alphabet. Optionally pass the
+     * invalid characters to the string referenced by the invalidChars parameter.
+     *
+     * @param UnicodeString $alphabet
+     * @param UnicodeString $subject
+     * @param string|null &$invalidChars
+     *
+     * @return bool
+     */
+    static public function consistsOf(
+        UnicodeString $alphabet,
+        UnicodeString $subject,
+        string &$invalidChars = null
+    ): bool {
+        $pattern = '/[' . $alphabet->getRaw() . ']+/';
+        $remainingCharacters = $subject->replace($pattern, '');
+
+        if ($remainingCharacters->getLength()) {
+            if ($invalidChars !== null) {
+                $invalidChars = $remainingCharacters->getRaw();
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 }

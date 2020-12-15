@@ -8,6 +8,40 @@ use PHPUnit\Framework\TestCase;
 
 class UnicodeStringUtilTest extends TestCase
 {
+    public function consistsOfInputsProvider(): array
+    {
+        return [
+            [
+                // alphabet
+                'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ',
+                // input
+                'проверка',
+                // isValid
+                true,
+                // invalidChars
+                ''
+            ],
+            [
+                'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ',
+                'СтрокаПосложнЕЕ',
+                true,
+                ''
+            ],
+            [
+                'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ',
+                'abcdef',
+                false,
+                'abcdef'
+            ],
+            [
+                'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ',
+                'йцукен123qwerty',
+                false,
+                '123qwerty'
+            ]
+        ];
+    }
+
     public function testCountCharacters(): void
     {
         $emptyString = new UnicodeString('');
@@ -55,5 +89,18 @@ class UnicodeStringUtilTest extends TestCase
             ],
             $repeatingPairsStringFreqMap
         );
+    }
+
+    /**
+     * @dataProvider consistsOfInputsProvider
+     */
+    public function testConsistsOf(string $alphabet, string $input, bool $isValid, string $invalidChars)
+    {
+        $alphabet = new UnicodeString($alphabet);
+        $subject = new UnicodeString($input);
+        $returnedInvalidChars = '';
+
+        $this->assertEquals($isValid, UnicodeStringUtil::consistsOf($alphabet, $subject, $returnedInvalidChars));
+        $this->assertEquals($invalidChars, $returnedInvalidChars);
     }
 }
