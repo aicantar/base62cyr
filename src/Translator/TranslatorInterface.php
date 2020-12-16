@@ -22,6 +22,15 @@ interface TranslatorInterface
     public function translate(array $message): string;
 
     /**
+     * Convert the given translated string to an array of integers representing the original message.
+     *
+     * @param string $message
+     *
+     * @return int[]
+     */
+    public function untranslate(string $message): array;
+
+    /**
      * Get translator alphabet.
      *
      * @return UnicodeString

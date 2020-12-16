@@ -5,6 +5,7 @@ namespace Aicantar\Base62cyr\Tests\Translator;
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
 use Aicantar\Base62Cyr\Util\UnicodeString;
 use InvalidArgumentException;
+use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 
 class Base62CyrTranslatorTest extends TestCase
@@ -62,6 +63,24 @@ class Base62CyrTranslatorTest extends TestCase
         $translator = new Base62CyrTranslator($this->base62cyrAlphabet);
 
         $this->assertEquals($result, $translator->translate($message));
+    }
+
+    /**
+     * @dataProvider messageProvider
+     */
+    public function testUntranslateConvertsTranslatedStringsBackToOriginalMessages(array $message): void
+    {
+        $translator = new Base62CyrTranslator($this->base62cyrAlphabet);
+
+        $this->assertEquals($message, $translator->untranslate($translator->translate($message)));
+    }
+
+    public function testUntranslateThrowsExceptionForInvalidMessages()
+    {
+        $this->expectException(OutOfRangeException::class);
+
+        $translator = new Base62CyrTranslator($this->base62cyrAlphabet);
+        $translator->untranslate('{&@*#qwerty');
     }
 
     public function testGetAlphabetReturnsUnicodeString(): void

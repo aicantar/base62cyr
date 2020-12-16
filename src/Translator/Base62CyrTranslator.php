@@ -5,6 +5,7 @@ namespace Aicantar\Base62Cyr\Translator;
 use Aicantar\Base62Cyr\Util\UnicodeString;
 use Aicantar\Base62Cyr\Util\UnicodeStringUtil;
 use InvalidArgumentException;
+use OutOfRangeException;
 
 /**
  * Base62 Cyrillic Translator.
@@ -45,6 +46,29 @@ class Base62CyrTranslator implements TranslatorInterface
         return implode('', array_map(function ($index) {
             return $this->alphabet->getCharAt($index);
         }, $message));
+    }
+
+    /**
+     * @inheritDoc
+     * @throws OutOfRangeException
+     */
+    public function untranslate(string $message): array
+    {
+        if (empty($message)) {
+            return [];
+        }
+
+        $messageStr = new UnicodeString($message);
+
+        return array_map(function ($char) {
+            $index = $this->alphabet->indexOf($char);
+
+            if ($index === -1) {
+                throw new OutOfRangeException("Character \"{$char}\" is not in the alphabet.");
+            }
+
+            return $index;
+        }, $messageStr->asCharArray());
     }
 
     /**
