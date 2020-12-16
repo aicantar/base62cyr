@@ -69,21 +69,23 @@ class UnicodeString
     }
 
     /**
-     * Replace using regular expressions. Uses mb_ereg_replace internally.
+     * Replace using regular expressions. Uses preg_replace internally. If any regular expression options are provided,
+     * the caller should provide the 'u' option too. Otherwise, this option is appended automatically.
      *
      * @param string $pattern
      * @param string $replacement
-     * @param string $options
      *
-     * @see mb_ereg_replace()
+     * @see preg_replace()
      *
      * @return UnicodeString
      */
-    public function replace(string $pattern, string $replacement, string $options = 'msr'): UnicodeString
+    public function replace(string $pattern, string $replacement): UnicodeString
     {
-        $patternTrimmed = trim($pattern, '/');
+        if ($pattern[0] === '/' && $pattern[mb_strlen($pattern) - 1] === '/') {
+            $pattern .= 'u';
+        }
 
-        return new UnicodeString(mb_ereg_replace($patternTrimmed, $replacement, $this->data, $options));
+        return new UnicodeString(preg_replace($pattern, $replacement, $this->data));
     }
 
     /**
