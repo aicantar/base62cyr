@@ -16,8 +16,8 @@ use Aicantar\Base62Cyr\Base62Cyr;
 
 $base62cyr = new Base62Cyr();
 
-$encoded = $base62cyr->encode(random_bytes(256));
-$decoded = $base62cyr->decode($encoded);
+$encoded = $base62cyr->encode("Hello, world!"); // -> бЫтЙХЯЩЗЁЧЛюФейцДк
+$decoded = $base62cyr->decode($encoded);        // -> Hello, world!
 ```
 
 #### Using different alphabet

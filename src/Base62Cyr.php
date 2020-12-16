@@ -18,12 +18,12 @@ class Base62Cyr
     /**
      * Cyrillic alphabet, lowercase first
      */
-    const ALPHABET_CYR = 'абвгдейжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ';
+    const ALPHABET_CYR = 'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ';
 
     /**
      * Cyrillic alphabet, uppercase first
      */
-    const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдейжзийклмнопрстуфхцчшщыэюя';
+    const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';
 
     /**
      * @var UnicodeString
