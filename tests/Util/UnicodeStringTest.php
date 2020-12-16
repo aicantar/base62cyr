@@ -96,4 +96,13 @@ class UnicodeStringTest extends TestCase
         $this->assertEquals('я', $unicodeString->getCharAt($index1));
         $this->assertEquals('к', $unicodeString->getCharAt($index2));
     }
+
+    public function testAsCharArrayReturnsEmptyArrayForEmptyString(): void
+    {
+        $unicodeString = new UnicodeString('');
+        $charArray = $unicodeString->asCharArray();
+
+        $this->assertIsArray($charArray);
+        $this->assertEmpty($charArray);
+    }
 }

@@ -107,6 +107,10 @@ class UnicodeString
      */
     public function indexOf(string $character): int
     {
+        if (empty($character)) {
+            return -1;
+        }
+
         $index = mb_strpos($this->data, $character);
 
         if ($index === false) {
@@ -137,6 +141,22 @@ class UnicodeString
         }
 
         return mb_substr($this->data, $index, 1);
+    }
+
+    /**
+     * Convert this string to an array of characters.
+     *
+     * @return string[]
+     */
+    public function asCharArray(): array
+    {
+        if (!$this->length) {
+            return [];
+        }
+
+        return array_map(function ($index) {
+            return mb_substr($this->data, $index, 1);
+        }, range(0, $this->length - 1));
     }
 
     /**
