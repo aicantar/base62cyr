@@ -97,6 +97,13 @@ class UnicodeStringTest extends TestCase
         $this->assertEquals('к', $unicodeString->getCharAt($index2));
     }
 
+    public function testIndexOfShouldReturnInvalidIndexForEmptyArgument(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+
+        $this->assertEquals(-1, $unicodeString->indexOf(''));
+    }
+
     public function testAsCharArrayReturnsEmptyArrayForEmptyString(): void
     {
         $unicodeString = new UnicodeString('');
@@ -104,5 +111,20 @@ class UnicodeStringTest extends TestCase
 
         $this->assertIsArray($charArray);
         $this->assertEmpty($charArray);
+    }
+
+    public function testShouldReturnRawValueWhenConvertedToString(): void
+    {
+        $testString = 'проверочная строка';
+        $unicodeString = new UnicodeString($testString);
+
+        $this->assertEquals($testString, (string) $unicodeString);
+    }
+
+    public function testGetByteLengthShouldReturnStringLenthInBytes(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+
+        $this->assertEquals(strlen(self::STRING), $unicodeString->getByteLength());
     }
 }

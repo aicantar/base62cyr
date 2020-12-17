@@ -69,17 +69,7 @@ class Base62Encoder
             return '';
         }
 
-        $invalidChars = '';
-
-        if (!UnicodeStringUtil::consistsOf(
-            $this->translator->getAlphabet(),
-            new UnicodeString($value),
-            $invalidChars
-        )) {
-            throw new InvalidArgumentException(
-                "Invalid message. The message contains the following invalid characters: \"{$invalidChars}\"."
-            );
-        }
+        $this->validateBase62String(new UnicodeString($value));
 
         $valueRaw = $this->translator->untranslate($value);
 
@@ -111,21 +101,29 @@ class Base62Encoder
      */
     public function decodeInteger(string $value): int
     {
-        $invalidChars = '';
-
-        if (!UnicodeStringUtil::consistsOf(
-            $this->translator->getAlphabet(),
-            new UnicodeString($value),
-            $invalidChars
-        )) {
-            throw new InvalidArgumentException(
-                "Invalid message. The message contains the following invalid characters: \"{$invalidChars}\"."
-            );
-        }
+        $this->validateBase62String(new UnicodeString($value));
 
         $valueRaw = $this->translator->untranslate($value);
         $valueConverted = $this->converter->convert($valueRaw, 10, 62);
 
         return (int) implode('', $valueConverted);
+    }
+
+    /**
+     * Validate base62 string by checking if it consists only from the letters found in the provided translator's
+     * alphabet. Throw an InvalidArgumentException if the string is invalid.
+     *
+     * @param UnicodeString $string
+     * @throws InvalidArgumentException
+     */
+    protected function validateBase62String(UnicodeString $string)
+    {
+        $invalidChars = '';
+
+        if (!UnicodeStringUtil::consistsOf($this->translator->getAlphabet(), $string, $invalidChars)) {
+            throw new InvalidArgumentException(
+                "Invalid message. The message contains the following invalid characters: \"{$invalidChars}\"."
+            );
+        }
     }
 }

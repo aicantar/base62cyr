@@ -28,9 +28,10 @@ class Base62EncoderTest extends TestCase
     /**
      * @dataProvider encoderProvider
      */
-    public function testShouldHandleEmptyMessages(Base62Encoder $encoder): void
+    public function testShouldEncodeAndDecodeEmptyMessages(Base62Encoder $encoder): void
     {
         $this->assertEmpty($encoder->encode(''));
+        $this->assertEmpty($encoder->decode(''));
     }
 
     /**
