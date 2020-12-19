@@ -6,8 +6,8 @@ use Aicantar\Base62Cyr\Converter\SimpleConverter;
 use Aicantar\Base62Cyr\Encoder\Base62Encoder;
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
 use Aicantar\Base62Cyr\Util\UnicodeString;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class Base62EncoderTest extends TestCase
 {
@@ -91,7 +91,7 @@ class Base62EncoderTest extends TestCase
      */
     public function testShouldThrowExceptionOnInvalidData(Base62Encoder $encoder): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(RuntimeException::class);
 
         $encoder->decode(random_bytes(128));
     }

@@ -2,6 +2,7 @@
 
 namespace Aicantar\Base62cyr\Tests\Util;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Aicantar\Base62Cyr\Util\UnicodeString;
 use OutOfRangeException;
@@ -78,6 +79,22 @@ class UnicodeStringTest extends TestCase
         $this->assertNotSame($unicodeString, $newString);
         $this->assertEquals('новая строка', $newString->getRaw());
         $this->assertEquals('проверочная строка', $unicodeString->getRaw());
+    }
+
+    public function testReplaceThrowsExceptionOnInvalidDelimiters(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString->replace('проверочная', 'новая');
+    }
+
+    public function testReplaceHonorsPatternModifiers(): void
+    {
+        $unicodeString = new UnicodeString(self::STRING);
+        $newString = $unicodeString->replace('/ПрОвЕрОчНаЯ/i', 'новая');
+
+        $this->assertEquals('новая строка', $newString->getRaw());
     }
 
     public function testIndexOfReturnsValidIndexForExistingCharacters(): void

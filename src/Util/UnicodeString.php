@@ -2,7 +2,9 @@
 
 namespace Aicantar\Base62Cyr\Util;
 
+use InvalidArgumentException;
 use OutOfRangeException;
+use RuntimeException;
 
 /**
  * Simple unicode string wrapper.
@@ -35,7 +37,7 @@ class UnicodeString
     {
         $this->data = $raw;
         $this->length = mb_strlen($raw);
-        $this->byteLength = mb_strlen($raw, '8bit');
+        $this->byteLength = mb_strlen($raw, "8bit");
     }
 
     /**
@@ -69,23 +71,51 @@ class UnicodeString
     }
 
     /**
-     * Replace using regular expressions. Uses preg_replace internally. If any regular expression options are provided,
-     * the caller should provide the 'u' option too. Otherwise, this option is appended automatically.
+     * Replace using regular expressions. Uses preg_replace internally. Appends "u" to the pattern modifier list if not
+     * provided.
      *
      * @param string $pattern
      * @param string $replacement
      *
      * @see preg_replace()
      *
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     *
      * @return UnicodeString
      */
     public function replace(string $pattern, string $replacement): UnicodeString
     {
-        if ($pattern[0] === '/' && $pattern[mb_strlen($pattern) - 1] === '/') {
-            $pattern .= 'u';
+        $delimiter = $pattern[0];
+
+        if (!preg_match("/[^[:alnum:]]/u", $delimiter)) {
+            throw new InvalidArgumentException(
+                "Pattern must be enclosed by non-alphanumeric delimiters. The given pattern delimiter is invalid: {$delimiter}."
+            );
         }
 
-        return new UnicodeString(preg_replace($pattern, $replacement, $this->data));
+        $matches = [];
+        $modifiersPattern = "/\\" . $delimiter . "([a-zA-Z]+)$/";
+        $hasModifiers = preg_match($modifiersPattern, $pattern, $matches);
+
+        if ($hasModifiers) {
+            list (, $modifiers) = $matches;
+
+            if (strpos($modifiers, "u") === false) {
+                $newModifiers = $delimiter . ($modifiers . "u");
+                $pattern = preg_replace($modifiersPattern, $newModifiers, $pattern);
+            }
+        } else {
+            $pattern .= "u";
+        }
+
+        $newData = preg_replace($pattern, $replacement, $this->data);
+
+        if ($newData === null) {
+            throw new RuntimeException("PREG error: " . $this->translatePregError(preg_last_error()));
+        }
+
+        return new UnicodeString($newData);
     }
 
     /**
@@ -167,5 +197,34 @@ class UnicodeString
     public function __toString(): string
     {
         return $this->data;
+    }
+
+    /**
+     * Transform PREG error ID to its PHP constant name.
+     *
+     * @param int $error Error ID
+     *
+     * @return string
+     */
+    protected function translatePregError(int $error): string
+    {
+        switch ($error) {
+            case PREG_NO_ERROR:
+                return "PREG_NO_ERROR";
+            case PREG_INTERNAL_ERROR:
+                return "PREG_INTERNAL_ERROR";
+            case PREG_BACKTRACK_LIMIT_ERROR:
+                return "PREG_BACKTRACK_LIMIT_ERROR";
+            case PREG_RECURSION_LIMIT_ERROR:
+                return "PREG_RECURSION_LIMIT_ERROR";
+            case PREG_BAD_UTF8_ERROR:
+                return "PREG_BAD_UTF8_ERROR";
+            case PREG_BAD_UTF8_OFFSET_ERROR:
+                return "PREG_BAD_UTF8_OFFSET_ERROR";
+            case PREG_JIT_STACKLIMIT_ERROR:
+                return "PREG_JIT_STACKLIMIT_ERROR";
+        }
+
+        return "unknown error";
     }
 }
