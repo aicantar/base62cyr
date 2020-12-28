@@ -9,6 +9,12 @@ namespace Aicantar\Base62Cyr\Encoder;
  */
 class SimpleEncoder extends AbstractEncoder
 {
+    /**
+     * @inheritDoc
+     *
+     * @see http://codegolf.stackexchange.com/a/21672
+     * @see https://github.com/tuupola/base62/blob/2.x/src/Base62/PhpEncoder.php#L47
+     */
     protected function convert(array $message, int $targetBase, int $sourceBase): array
     {
         $result = [];
