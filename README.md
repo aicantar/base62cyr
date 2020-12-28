@@ -3,7 +3,7 @@
 Base62 converter but it's Cyrillic symbols everywhere.
 
 Converts arbitrary data to the base62 encoding, but the resulting string is encoded using Cyrillic letters
-instead of Latin. Technically can be used to convert data to proper base62, but is still mostly a joke project.
+instead of Latin. Can be used to convert data into proper base62 (i.e. with Latin alphabet).
 
 Work in progress.
 
@@ -14,10 +14,17 @@ require 'vendor/autoload.php';
 
 use Aicantar\Base62Cyr\Base62Cyr;
 
-$base62cyr = new Base62Cyr();
+$base62 = new Base62Cyr();
 
-$encoded = $base62cyr->encode("Hello, world!"); // -> бЫтЙХЯЩЗЁЧЛюФейцДк
-$decoded = $base62cyr->decode($encoded);        // -> Hello, world!
+$encoded = $base62->encode("Hello, world!");        // -> 1wJfrzvdbthTq5ANZB
+$decoded = $base62->decode($encoded);               // -> Hello, world!
+
+// or, with Cyrillic alphabet
+
+$base62cyr = new Base62Cyr(Base62Cyr::ALPHABET_CYR);
+
+$encodedCyr = $base62cyr->encode("Hello, world!");  // -> бЫтЙХЯЩЗЁЧЛюФейцДк
+$decodedCyr = $base62->decode($encoded);            // -> Hello, world!
 ```
 
 #### Using different alphabet
@@ -34,20 +41,40 @@ new Base62Cyr(Base62Cyr::ALPHABET_CYR_REVERSED);
 /**
  * Cyrillic alphabet, lowercase first
  */
-const ALPHABET_CYR = 'абвгдейжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ';
+const ALPHABET_CYR = 'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ';
 
 /**
  * Cyrillic alphabet, uppercase first
  */
-const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдейжзийклмнопрстуфхцчшщыэюя';
+const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';
+
+/**
+ * Cyrillic alphabet based on Ukrainian, lowercase first
+ */
+const ALPHABET_CYR_UKR = 'абвгдеєжзиіїйклмнопрстуфхцчшщюяАБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ';
+
+/**
+ * Cyrillic alphabet based on Ukrainian, uppercase first
+ */
+const ALPHABET_CYR_UKR_REVERSED = 'АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯабвгдеєжзиіїйклмнопрстуфхцчшщюя';
+
+/**
+ * GMP alphabet
+ */
+const ALPHABET_GMP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+/**
+ * Reversed GMP alphabet
+ */
+const ALPHABET_GMP_REVERSED = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 ```
 
 ### TODO list
 
 - [ ] GMP base converter
 - [ ] bcmath base converter
-- [ ] Proper support for normal base62 encoding using Latin alphabet
-- [ ] General refactoring
+- [x] Proper support for normal base62 encoding using Latin alphabet
+- [x] General refactoring
 
 ### Mentions
 

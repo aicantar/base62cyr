@@ -26,6 +26,26 @@ class Base62Cyr
     const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';
 
     /**
+     * Cyrillic alphabet based on Ukrainian, lowercase first
+     */
+    const ALPHABET_CYR_UKR = 'абвгдеєжзиіїйклмнопрстуфхцчшщюяАБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ';
+
+    /**
+     * Cyrillic alphabet based on Ukrainian, uppercase first
+     */
+    const ALPHABET_CYR_UKR_REVERSED = 'АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯабвгдеєжзиіїйклмнопрстуфхцчшщюя';
+
+    /**
+     * GMP alphabet
+     */
+    const ALPHABET_GMP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+    /**
+     * Reversed GMP alphabet
+     */
+    const ALPHABET_GMP_REVERSED = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    /**
      * @var TranslatorInterface
      */
     protected $translator;
@@ -40,7 +60,7 @@ class Base62Cyr
      *
      * @param string $alphabet Alphabet to use for conversion
      */
-    public function __construct(string $alphabet = self::ALPHABET_CYR)
+    public function __construct(string $alphabet = self::ALPHABET_GMP)
     {
         $this->translator = new Base62CyrTranslator(new MultibyteString($alphabet));
         $this->encoder = $this->getEncoder();
