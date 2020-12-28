@@ -3,8 +3,8 @@
 namespace Aicantar\Base62Cyr\Encoder;
 
 use Aicantar\Base62Cyr\Translator\TranslatorInterface;
-use Aicantar\Base62Cyr\Util\UnicodeString;
-use Aicantar\Base62Cyr\Util\UnicodeStringUtil;
+use Aicantar\Base62Cyr\Util\MultibyteString;
+use Aicantar\Base62Cyr\Util\MultibyteStringUtil;
 use RuntimeException;
 
 /**
@@ -132,7 +132,7 @@ abstract class AbstractEncoder
      */
     protected function validateBase62String(string $message)
     {
-        if (!UnicodeStringUtil::consistsOf($this->translator->getAlphabet(), new UnicodeString($message))) {
+        if (!MultibyteStringUtil::consistsOf($this->translator->getAlphabet(), new MultibyteString($message))) {
             throw new RuntimeException("The provided message contains invalid symbols.");
         }
     }

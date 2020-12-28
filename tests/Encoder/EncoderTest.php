@@ -7,7 +7,7 @@ namespace Aicantar\Base62cyr\Tests\Encoder;
 use Aicantar\Base62Cyr\Encoder\AbstractEncoder;
 use Aicantar\Base62Cyr\Encoder\SimpleEncoder;
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
-use Aicantar\Base62Cyr\Util\UnicodeString;
+use Aicantar\Base62Cyr\Util\MultibyteString;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -30,10 +30,10 @@ class EncoderTest extends TestCase
         // add encoders to test here, separate encoder instances for each alphabet
         $this->encoders = [
             self::ALPHABET_CYR => [
-                new SimpleEncoder(new Base62CyrTranslator(new UnicodeString(self::ALPHABET_CYR)))
+                new SimpleEncoder(new Base62CyrTranslator(new MultibyteString(self::ALPHABET_CYR)))
             ],
             self::ALPHABET_GMP => [
-                new SimpleEncoder(new Base62CyrTranslator(new UnicodeString(self::ALPHABET_GMP)))
+                new SimpleEncoder(new Base62CyrTranslator(new MultibyteString(self::ALPHABET_GMP)))
             ]
         ];
     }

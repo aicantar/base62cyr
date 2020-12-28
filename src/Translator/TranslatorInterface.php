@@ -2,7 +2,7 @@
 
 namespace Aicantar\Base62Cyr\Translator;
 
-use Aicantar\Base62Cyr\Util\UnicodeString;
+use Aicantar\Base62Cyr\Util\MultibyteString;
 
 /**
  * Translators are used to translate an array of integers in a particular number system to a string of characters. This
@@ -33,7 +33,7 @@ interface TranslatorInterface
     /**
      * Get translator alphabet.
      *
-     * @return UnicodeString
+     * @return MultibyteString
      */
-    public function getAlphabet(): UnicodeString;
+    public function getAlphabet(): MultibyteString;
 }

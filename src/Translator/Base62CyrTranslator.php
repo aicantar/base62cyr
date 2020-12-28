@@ -2,8 +2,8 @@
 
 namespace Aicantar\Base62Cyr\Translator;
 
-use Aicantar\Base62Cyr\Util\UnicodeString;
-use Aicantar\Base62Cyr\Util\UnicodeStringUtil;
+use Aicantar\Base62Cyr\Util\MultibyteString;
+use Aicantar\Base62Cyr\Util\MultibyteStringUtil;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -15,19 +15,19 @@ use OutOfRangeException;
 class Base62CyrTranslator implements TranslatorInterface
 {
     /**
-     * @var UnicodeString
+     * @var MultibyteString
      */
     protected $alphabet;
 
     /**
      * Base62CyrTranslator constructor.
      *
-     * @param UnicodeString $alphabet Translator alphabet, must contain exactly 62 unique characters.
+     * @param MultibyteString $alphabet Translator alphabet, must contain exactly 62 unique characters.
      */
-    public function __construct(UnicodeString $alphabet)
+    public function __construct(MultibyteString $alphabet)
     {
         $alphabetLength = $alphabet->getLength();
-        $uniqueCharsCount = count(array_keys(UnicodeStringUtil::countCharacters($alphabet)));
+        $uniqueCharsCount = count(array_keys(MultibyteStringUtil::countCharacters($alphabet)));
 
         if ($alphabetLength !== 62 || $uniqueCharsCount !== 62) {
             throw new InvalidArgumentException(
@@ -58,7 +58,7 @@ class Base62CyrTranslator implements TranslatorInterface
             return [];
         }
 
-        $messageStr = new UnicodeString($message);
+        $messageStr = new MultibyteString($message);
 
         return array_map(function ($char) {
             $index = $this->alphabet->indexOf($char);
@@ -74,7 +74,7 @@ class Base62CyrTranslator implements TranslatorInterface
     /**
      * @inheritDoc
      */
-    public function getAlphabet(): UnicodeString
+    public function getAlphabet(): MultibyteString
     {
         return $this->alphabet;
     }

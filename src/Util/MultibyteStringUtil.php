@@ -3,21 +3,21 @@
 namespace Aicantar\Base62Cyr\Util;
 
 /**
- * UnicodeString utilities.
+ * MultibyteString utilities.
  *
  * @package Aicantar\Base62Cyr\Util
  */
-class UnicodeStringUtil
+class MultibyteStringUtil
 {
     /**
      * Returns character frequency table from the given UnicodeString. The resulting array is a
      * [ char1 => freq1, ... ]-like map.
      *
-     * @param UnicodeString $string
+     * @param MultibyteString $string
      *
      * @return array
      */
-    static public function countCharacters(UnicodeString $string): array
+    static public function countCharacters(MultibyteString $string): array
     {
         $map = [];
 
@@ -37,15 +37,15 @@ class UnicodeStringUtil
      * Test whether the given subject consists only from the characters found in the given alphabet. Optionally pass the
      * invalid characters to the string referenced by the invalidChars parameter.
      *
-     * @param UnicodeString $alphabet
-     * @param UnicodeString $subject
+     * @param MultibyteString $alphabet
+     * @param MultibyteString $subject
      * @param string|null &$invalidChars
      *
      * @return bool
      */
     static public function consistsOf(
-        UnicodeString $alphabet,
-        UnicodeString $subject,
+        MultibyteString $alphabet,
+        MultibyteString $subject,
         string &$invalidChars = null
     ): bool {
         $pattern = '/[' . $alphabet->getRaw() . ']+/';

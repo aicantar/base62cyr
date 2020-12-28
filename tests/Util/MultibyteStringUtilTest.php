@@ -2,11 +2,11 @@
 
 namespace Aicantar\Base62cyr\Tests\Util;
 
-use Aicantar\Base62Cyr\Util\UnicodeString;
-use Aicantar\Base62Cyr\Util\UnicodeStringUtil;
+use Aicantar\Base62Cyr\Util\MultibyteString;
+use Aicantar\Base62Cyr\Util\MultibyteStringUtil;
 use PHPUnit\Framework\TestCase;
 
-class UnicodeStringUtilTest extends TestCase
+class MultibyteStringUtilTest extends TestCase
 {
     public function consistsOfInputsProvider(): array
     {
@@ -44,18 +44,18 @@ class UnicodeStringUtilTest extends TestCase
 
     public function testCountCharacters(): void
     {
-        $emptyString = new UnicodeString('');
-        $fullyUniqueString = new UnicodeString('абвгде');
-        $repeatingCharactersString = new UnicodeString('кккккк');
-        $repeatingPairsString = new UnicodeString('кекеке');
+        $emptyString = new MultibyteString('');
+        $fullyUniqueString = new MultibyteString('абвгде');
+        $repeatingCharactersString = new MultibyteString('кккккк');
+        $repeatingPairsString = new MultibyteString('кекеке');
 
         // empty string
-        $emptyStringFreqMap = UnicodeStringUtil::countCharacters($emptyString);
+        $emptyStringFreqMap = MultibyteStringUtil::countCharacters($emptyString);
         $this->assertCount(0, array_keys($emptyStringFreqMap));
         $this->assertEquals([], $emptyStringFreqMap);
 
         // fully unique string
-        $fullyUniqueStringFreqMap = UnicodeStringUtil::countCharacters($fullyUniqueString);
+        $fullyUniqueStringFreqMap = MultibyteStringUtil::countCharacters($fullyUniqueString);
         $this->assertCount(6, array_keys($fullyUniqueStringFreqMap));
         $this->assertEquals(
             [
@@ -70,7 +70,7 @@ class UnicodeStringUtilTest extends TestCase
         );
 
         // repeating characters string
-        $repeatingCharactersStringFreqMap = UnicodeStringUtil::countCharacters($repeatingCharactersString);
+        $repeatingCharactersStringFreqMap = MultibyteStringUtil::countCharacters($repeatingCharactersString);
         $this->assertCount(1, array_keys($repeatingCharactersStringFreqMap));
         $this->assertEquals(
             [
@@ -80,7 +80,7 @@ class UnicodeStringUtilTest extends TestCase
         );
 
         // repeating character pairs string
-        $repeatingPairsStringFreqMap = UnicodeStringUtil::countCharacters($repeatingPairsString);
+        $repeatingPairsStringFreqMap = MultibyteStringUtil::countCharacters($repeatingPairsString);
         $this->assertCount(2, array_keys($repeatingPairsStringFreqMap));
         $this->assertEquals(
             [
@@ -96,11 +96,11 @@ class UnicodeStringUtilTest extends TestCase
      */
     public function testConsistsOf(string $alphabet, string $input, bool $isValid, string $invalidChars)
     {
-        $alphabet = new UnicodeString($alphabet);
-        $subject = new UnicodeString($input);
+        $alphabet = new MultibyteString($alphabet);
+        $subject = new MultibyteString($input);
         $returnedInvalidChars = '';
 
-        $this->assertEquals($isValid, UnicodeStringUtil::consistsOf($alphabet, $subject, $returnedInvalidChars));
+        $this->assertEquals($isValid, MultibyteStringUtil::consistsOf($alphabet, $subject, $returnedInvalidChars));
         $this->assertEquals($invalidChars, $returnedInvalidChars);
     }
 }

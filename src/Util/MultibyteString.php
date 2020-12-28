@@ -7,11 +7,11 @@ use OutOfRangeException;
 use RuntimeException;
 
 /**
- * Simple unicode string wrapper.
+ * Simple multibyte string wrapper.
  *
  * @package Aicantar\Base62Cyr
  */
-class UnicodeString
+class MultibyteString
 {
     /**
      * @var string
@@ -77,14 +77,14 @@ class UnicodeString
      * @param string $pattern
      * @param string $replacement
      *
-     * @see preg_replace()
+     * @return MultibyteString
+     *@throws RuntimeException
      *
      * @throws InvalidArgumentException
-     * @throws RuntimeException
+     * @see preg_replace()
      *
-     * @return UnicodeString
      */
-    public function replace(string $pattern, string $replacement): UnicodeString
+    public function replace(string $pattern, string $replacement): MultibyteString
     {
         $delimiter = $pattern[0];
 
@@ -115,7 +115,7 @@ class UnicodeString
             throw new RuntimeException("PREG error: " . $this->translatePregError(preg_last_error()));
         }
 
-        return new UnicodeString($newData);
+        return new MultibyteString($newData);
     }
 
     /**

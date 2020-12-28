@@ -3,7 +3,7 @@
 namespace Aicantar\Base62cyr\Tests\Translator;
 
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
-use Aicantar\Base62Cyr\Util\UnicodeString;
+use Aicantar\Base62Cyr\Util\MultibyteString;
 use InvalidArgumentException;
 use OutOfRangeException;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ class Base62CyrTranslatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->base62cyrAlphabet = new UnicodeString('абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ');
+        $this->base62cyrAlphabet = new MultibyteString('абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ');
     }
 
     public function messageProvider(): array
@@ -39,9 +39,9 @@ class Base62CyrTranslatorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $emptyAlphabet = new UnicodeString('');
-        $shortAlphabet = new UnicodeString('абвгд');
-        $repeatingAlphabet = new UnicodeString('аааааааааааааааааааааааааааааааААААААААААААААААААААААААААААААА');
+        $emptyAlphabet = new MultibyteString('');
+        $shortAlphabet = new MultibyteString('абвгд');
+        $repeatingAlphabet = new MultibyteString('аааааааааааааааааааааааааааааааААААААААААААААААААААААААААААААА');
 
         new Base62CyrTranslator($emptyAlphabet);
         new Base62CyrTranslator($shortAlphabet);
@@ -87,6 +87,6 @@ class Base62CyrTranslatorTest extends TestCase
     {
         $translator = new Base62CyrTranslator($this->base62cyrAlphabet);
 
-        $this->assertInstanceOf(UnicodeString::class, $translator->getAlphabet());
+        $this->assertInstanceOf(MultibyteString::class, $translator->getAlphabet());
     }
 }

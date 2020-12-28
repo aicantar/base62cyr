@@ -6,7 +6,7 @@ use Aicantar\Base62Cyr\Encoder\AbstractEncoder;
 use Aicantar\Base62Cyr\Encoder\SimpleEncoder;
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
 use Aicantar\Base62Cyr\Translator\TranslatorInterface;
-use Aicantar\Base62Cyr\Util\UnicodeString;
+use Aicantar\Base62Cyr\Util\MultibyteString;
 
 /**
  * Base62 Cyrillic converter.
@@ -42,7 +42,7 @@ class Base62Cyr
      */
     public function __construct(string $alphabet = self::ALPHABET_CYR)
     {
-        $this->translator = new Base62CyrTranslator(new UnicodeString($alphabet));
+        $this->translator = new Base62CyrTranslator(new MultibyteString($alphabet));
         $this->encoder = $this->getEncoder();
     }
 
@@ -97,9 +97,9 @@ class Base62Cyr
     /**
      * Get alphabet used by the converter.
      *
-     * @return UnicodeString
+     * @return MultibyteString
      */
-    public function getAlphabet(): UnicodeString
+    public function getAlphabet(): MultibyteString
     {
         return $this->translator->getAlphabet();
     }

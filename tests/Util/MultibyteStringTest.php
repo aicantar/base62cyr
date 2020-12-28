@@ -4,30 +4,30 @@ namespace Aicantar\Base62cyr\Tests\Util;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Aicantar\Base62Cyr\Util\UnicodeString;
+use Aicantar\Base62Cyr\Util\MultibyteString;
 use OutOfRangeException;
 
-class UnicodeStringTest extends TestCase
+class MultibyteStringTest extends TestCase
 {
     const STRING = 'проверочная строка';
 
     public function testWrapsStringCorrectly(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertEquals(self::STRING, $unicodeString->getRaw());
     }
 
     public function testDeterminesLengthCorrectly(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertEquals(mb_strlen(self::STRING), $unicodeString->getLength());
     }
 
     public function testCharAtReturnsCorrectCharacter(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertEquals('п', $unicodeString->getCharAt(0));
         $this->assertEquals(' ', $unicodeString->getCharAt(11));
@@ -38,7 +38,7 @@ class UnicodeStringTest extends TestCase
     {
         $this->expectException(OutOfRangeException::class);
 
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
         $unicodeString->getCharAt($unicodeString->getLength() + 1);
     }
 
@@ -46,13 +46,13 @@ class UnicodeStringTest extends TestCase
     {
         $this->expectException(OutOfRangeException::class);
 
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
         $unicodeString->getCharAt(-1);
     }
 
     public function testContainsShouldReturnTrueForValidSubstrings(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertTrue($unicodeString->contains('прове'));
         $this->assertTrue($unicodeString->contains('вер'));
@@ -62,7 +62,7 @@ class UnicodeStringTest extends TestCase
 
     public function testContainsShouldReturnFalseForInvalidSubstrings(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertFalse($unicodeString->contains(''));
         $this->assertFalse($unicodeString->contains('аа'));
@@ -72,10 +72,10 @@ class UnicodeStringTest extends TestCase
 
     public function testReplaceWorksAndReturnsNewUnicodeString(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
         $newString = $unicodeString->replace('/проверочная/', 'новая');
 
-        $this->assertInstanceOf(UnicodeString::class, $newString);
+        $this->assertInstanceOf(MultibyteString::class, $newString);
         $this->assertNotSame($unicodeString, $newString);
         $this->assertEquals('новая строка', $newString->getRaw());
         $this->assertEquals('проверочная строка', $unicodeString->getRaw());
@@ -85,13 +85,13 @@ class UnicodeStringTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
         $unicodeString->replace('проверочная', 'новая');
     }
 
     public function testReplaceHonorsPatternModifiers(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
         $newString = $unicodeString->replace('/ПрОвЕрОчНаЯ/i', 'новая');
 
         $this->assertEquals('новая строка', $newString->getRaw());
@@ -99,7 +99,7 @@ class UnicodeStringTest extends TestCase
 
     public function testIndexOfReturnsValidIndexForExistingCharacters(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $index0 = $unicodeString->indexOf('п');
         $index1 = $unicodeString->indexOf('я');
@@ -116,14 +116,14 @@ class UnicodeStringTest extends TestCase
 
     public function testIndexOfShouldReturnInvalidIndexForEmptyArgument(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertEquals(-1, $unicodeString->indexOf(''));
     }
 
     public function testAsCharArrayReturnsEmptyArrayForEmptyString(): void
     {
-        $unicodeString = new UnicodeString('');
+        $unicodeString = new MultibyteString('');
         $charArray = $unicodeString->asCharArray();
 
         $this->assertIsArray($charArray);
@@ -133,14 +133,14 @@ class UnicodeStringTest extends TestCase
     public function testShouldReturnRawValueWhenConvertedToString(): void
     {
         $testString = 'проверочная строка';
-        $unicodeString = new UnicodeString($testString);
+        $unicodeString = new MultibyteString($testString);
 
         $this->assertEquals($testString, (string) $unicodeString);
     }
 
     public function testGetByteLengthShouldReturnStringLenthInBytes(): void
     {
-        $unicodeString = new UnicodeString(self::STRING);
+        $unicodeString = new MultibyteString(self::STRING);
 
         $this->assertEquals(strlen(self::STRING), $unicodeString->getByteLength());
     }
