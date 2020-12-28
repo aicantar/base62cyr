@@ -139,7 +139,7 @@ class UnicodeString
      */
     public function indexOf(string $character): int
     {
-        if (empty($character)) {
+        if ($character === '') {
             return -1;
         }
 

@@ -54,7 +54,7 @@ class Base62CyrTranslator implements TranslatorInterface
      */
     public function untranslate(string $message): array
     {
-        if (empty($message)) {
+        if ($message === '') {
             return [];
         }
 

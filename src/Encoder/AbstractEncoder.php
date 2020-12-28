@@ -38,7 +38,7 @@ abstract class AbstractEncoder
      */
     public function encode(string $message): string
     {
-        if (empty($message)) {
+        if ($message === '') {
             return '';
         }
 
@@ -68,7 +68,7 @@ abstract class AbstractEncoder
      */
     public function decode(string $messageEncoded): string
     {
-        if (empty($messageEncoded)) {
+        if ($messageEncoded === '') {
             return '';
         }
 
@@ -113,7 +113,7 @@ abstract class AbstractEncoder
      */
     public function decodeInteger(string $integerEncoded): ?int
     {
-        if (empty($integerEncoded)) {
+        if ($integerEncoded === '') {
             return null;
         }
 

@@ -14,6 +14,7 @@ use RuntimeException;
 class EncoderTest extends TestCase
 {
     const ALPHABET_CYR = 'абвгдеёжзийклмнопрстуфхцчшщыэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ';
+    const ALPHABET_GMP = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     /**
      * Encoders to be tested
@@ -26,19 +27,24 @@ class EncoderTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $translatorCyr = new Base62CyrTranslator(new UnicodeString(self::ALPHABET_CYR));
-
-        // add encoders to test here
+        // add encoders to test here, separate encoder instances for each alphabet
         $this->encoders = [
-            new SimpleEncoder($translatorCyr)
+            self::ALPHABET_CYR => [
+                new SimpleEncoder(new Base62CyrTranslator(new UnicodeString(self::ALPHABET_CYR)))
+            ],
+            self::ALPHABET_GMP => [
+                new SimpleEncoder(new Base62CyrTranslator(new UnicodeString(self::ALPHABET_GMP)))
+            ]
         ];
     }
 
     public function encoderProvider(): array
     {
+        $encoders = array_merge(...array_values($this->encoders));
+
         return array_map(function ($encoder) {
             return [$encoder];
-        }, $this->encoders);
+        }, $encoders);
     }
 
     /**
@@ -133,10 +139,18 @@ class EncoderTest extends TestCase
         $message = random_bytes(64);
         $results = [];
 
-        foreach ($this->encoders as $encoder) {
-            $results[] = $encoder->encode($message);
+        foreach ($this->encoders as $alphabet => $encoders) {
+            if (!isset($results[$alphabet])) {
+                $results[$alphabet] = [];
+            }
+
+            foreach ($encoders as $encoder) {
+                $results[$alphabet][] = $encoder->encode($message);
+            }
         }
 
-        $this->assertCount(1, array_unique($results));
+        foreach ($results as $alphabet => $result) {
+            $this->assertCount(1, array_unique($result));
+        }
     }
 }
