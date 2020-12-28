@@ -2,10 +2,10 @@
 
 namespace Aicantar\Base62Cyr;
 
-use Aicantar\Base62Cyr\Converter\AbstractConverter;
-use Aicantar\Base62Cyr\Converter\SimpleConverter;
-use Aicantar\Base62Cyr\Encoder\Base62Encoder;
+use Aicantar\Base62Cyr\Encoder\AbstractEncoder;
+use Aicantar\Base62Cyr\Encoder\SimpleEncoder;
 use Aicantar\Base62Cyr\Translator\Base62CyrTranslator;
+use Aicantar\Base62Cyr\Translator\TranslatorInterface;
 use Aicantar\Base62Cyr\Util\UnicodeString;
 
 /**
@@ -26,24 +26,24 @@ class Base62Cyr
     const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';
 
     /**
-     * @var UnicodeString
+     * @var TranslatorInterface
      */
-    protected $alphabet;
+    protected $translator;
 
     /**
-     * @var Base62Encoder
+     * @var AbstractEncoder
      */
     protected $encoder;
 
     /**
-     * Create base62 Cyrillic converter instance.
+     * Base62 Converter constructor.
      *
      * @param string $alphabet Alphabet to use for conversion
      */
     public function __construct(string $alphabet = self::ALPHABET_CYR)
     {
-        $this->alphabet = new UnicodeString($alphabet);
-        $this->encoder = new Base62Encoder($this->getConverter(), new Base62CyrTranslator($this->alphabet));
+        $this->translator = new Base62CyrTranslator(new UnicodeString($alphabet));
+        $this->encoder = $this->getEncoder();
     }
 
     /**
@@ -101,17 +101,17 @@ class Base62Cyr
      */
     public function getAlphabet(): UnicodeString
     {
-        return $this->alphabet;
+        return $this->translator->getAlphabet();
     }
 
     /**
-     * Get best converter available for the host's PHP configuration.
+     * Get the best available encoder for the host PHP installation.
      *
-     * @return AbstractConverter
+     * @return AbstractEncoder
      */
-    protected function getConverter(): AbstractConverter
+    protected function getEncoder(): AbstractEncoder
     {
-        // TODO: implement gmp converter and return it if it is available
-        return new SimpleConverter();
+        // TODO: implement & return GMP converter if GMP is available
+        return new SimpleEncoder($this->translator);
     }
 }
