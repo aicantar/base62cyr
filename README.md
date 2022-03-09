@@ -49,6 +49,16 @@ const ALPHABET_CYR = 'абвгдеёжзийклмнопрстуфхцчшщыэ
 const ALPHABET_CYR_REVERSED = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯабвгдеёжзийклмнопрстуфхцчшщыэюя';
 
 /**
+ * Cyrillic alphabet based on Belarusian, lowercase first.
+ */
+const ALPHABET_CYR_BEL = 'абвгдежзийклмнопрстуўфхцчшщыэюяАБВГДЕЖЗИЙКЛМНОРСТУЎФХЦЧШЩЫЭЮЯ';
+
+/**
+ * Cyrillic alphabet based on Belarusian, uppercase first.
+ */
+const ALPHABET_CYR_BEL_REVERSED = 'АБВГДЕЖЗИЙКЛМНОРСТУЎФХЦЧШЩЫЭЮЯабвгдежзийклмнопрстуўфхцчшщыэюя';
+
+/**
  * Cyrillic alphabet based on Ukrainian, lowercase first
  */
 const ALPHABET_CYR_UKR = 'абвгдеєжзиіїйклмнопрстуфхцчшщюяАБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЮЯ';
