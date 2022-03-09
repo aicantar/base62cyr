@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Aicantar\Base62Cyr;
+namespace Aicantar;
 
 use Aicantar\Base62Cyr\Encoder\AbstractEncoder;
 use Aicantar\Base62Cyr\Encoder\SimpleEncoder;
@@ -11,7 +11,7 @@ use Aicantar\Base62Cyr\Util\MultibyteString;
 /**
  * Base62 Cyrillic converter.
  *
- * @package Aicantar\Base62Cyr
+ * @package Aicantar
  */
 class Base62Cyr
 {

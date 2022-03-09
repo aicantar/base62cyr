@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Aicantar\\Base62Cyr\\": "./src/"
+            "Aicantar\\": "./src/"
         }
     },
     "autoload-dev": {

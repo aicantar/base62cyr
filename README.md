@@ -12,7 +12,7 @@ Work in progress.
 ```php
 require 'vendor/autoload.php';
 
-use Aicantar\Base62Cyr\Base62Cyr;
+use Aicantar\Base62Cyr;
 
 $base62 = new Base62Cyr();
 
